@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EJS Example</title>
+</head>
+<body>
+  <h1>We are learning EJS</h1>
+  <h2>Welcome, <%= name %> 👋</h2>
+
+  <h3>Available Courses:</h3>
+  <ul>
+    <% products.forEach((item) => { %>
+      <li>
+        <h3><%= item.title %></h3>
+        <p><strong>Instructor:</strong> <%= item.instructor %></p>
+        <p><strong>Duration:</strong> <%= item.duration %></p>
+        <p><strong>Price:</strong> ₹<%= item.price %></p>
+        <p><strong>Rating:</strong> <%= item.rating %> ⭐</p>
+        <p><strong>Students Enrolled:</strong> <%= item.studentsEnrolled %></p>
+        <hr>
+      </li>
+    <% }) %>
+  </ul>
+</body>
+</html>
