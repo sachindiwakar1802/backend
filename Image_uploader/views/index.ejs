@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Image Uploader</title>
+  </head>
+  <body style="text-align:center; font-family:sans-serif;">
+    <h1>🌈 Upload Image to Cloudinary</h1>
+
+    <form action="/upload" method="POST" enctype="multipart/form-data">
+      <input type="file" name="image" accept="image/*" required />
+      <button type="submit">Upload</button>
+    </form>
+
+    <% if (url) { %>
+      <h3>✅ Uploaded Image:</h3>
+      <img src="<%= url %>" width="300" />
+    <% } %>
+  </body>
+</html>
