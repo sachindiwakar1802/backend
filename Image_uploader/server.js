@@ -6,7 +6,7 @@ import { v2 as cloudinary } from "cloudinary";
 import fs from "fs";
 
 const app = express();
-const port = 7000;
+const port = 3000;
 
 // Middleware
 app.use(express.urlencoded({ extended: true }));
