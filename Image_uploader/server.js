@@ -39,7 +39,7 @@ const File = mongoose.model("cloudinary", imageSchema);
 
 // Multer setup
 const storage = multer.diskStorage({
-  destination: "./public/uploads",
+  // destination: "./public/uploads",
   filename: (req, file, cb) => {
     const uniqueSuffix = Date.now() + path.extname(file.originalname);
     cb(null, file.fieldname + "-" + uniqueSuffix);
