@@ -28,13 +28,14 @@ mongoose
   .then(() => console.log("✅ MongoDB Connected"))
   .catch((err) => console.log("❌ DB Error:", err));
 
-// Schema & Model (optional)
+// Schema & Model
 const imageSchema = new mongoose.Schema({
   filename: String,
-  cloudinary_url: String,
+  public_id: String,
+  ImgUrl: String,
   uploadedAt: { type: Date, default: Date.now },
 });
-const Image = mongoose.model("Image", imageSchema);
+const File = mongoose.model("cloudinary", imageSchema);
 
 // Multer setup
 const storage = multer.diskStorage({
@@ -51,16 +52,15 @@ app.set("view engine", "ejs");
 app.set("views", "./views");
 
 // Routes
-app.get("/", (req, res) => {
-  res.render("index", { url: null });
+app.get("/", async (req, res) => {
+  const images = await File.find().sort({ uploadedAt: -1 });
+  res.render("index", { images });
 });
 
 // Upload route
 app.post("/upload", upload.single("image"), async (req, res) => {
   try {
-    if (!req.file) {
-      return res.status(400).json({ error: "No file uploaded" });
-    }
+    if (!req.file) return res.status(400).json({ error: "No file uploaded" });
 
     const filePath = path.resolve(req.file.path);
 
@@ -69,20 +69,19 @@ app.post("/upload", upload.single("image"), async (req, res) => {
       folder: "NodeJS_Mastery_Course",
     });
 
-    // Delete local file after upload
+    // Save to MongoDB
+    const db = await File.create({
+      filename: req.file.originalname,
+      public_id: cloudinaryRes.public_id,
+      ImgUrl: cloudinaryRes.secure_url,
+    });
+
+    // Delete local file
     fs.unlinkSync(filePath);
 
-    // Save to MongoDB
-    const newImage = new Image({
-      filename: req.file.filename,
-      cloudinary_url: cloudinaryRes.secure_url,
-    });
-    await newImage.save();
-
-    res.json({
-      message: "✅ File uploaded successfully!",
-      cloudinaryData: cloudinaryRes,
-    });
+    // Show uploaded image on the page
+    const images = await File.find().sort({ uploadedAt: -1 });
+    res.render("index", { images });
   } catch (error) {
     console.error("❌ Upload Error:", error);
     res.status(500).json({ error: "Something went wrong during upload" });
