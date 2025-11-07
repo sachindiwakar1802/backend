@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Registration Form</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+    }
+
+    .form-container {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+      padding: 40px;
+      width: 380px;
+      text-align: center;
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      font-size: 26px;
+      color: #fff;
+      letter-spacing: 1px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+      text-align: left;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="file"] {
+      width: 100%;
+      padding: 10px 12px;
+      border: none;
+      border-radius: 10px;
+      outline: none;
+      font-size: 15px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+    }
+
+    input::placeholder {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    input[type="file"] {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      cursor: pointer;
+    }
+
+    .preview {
+      margin-top: 15px;
+    }
+
+    .preview img {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #fff;
+      margin-top: 10px;
+      transition: transform 0.3s;
+    }
+
+    .preview img:hover {
+      transform: scale(1.05);
+    }
+
+    button {
+      background: #00c6ff;
+      background: linear-gradient(90deg, #00c6ff 0%, #0072ff 100%);
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 20px;
+      width: 100%;
+      transition: all 0.3s;
+    }
+
+    button:hover {
+      background: linear-gradient(90deg, #0072ff 0%, #00c6ff 100%);
+      transform: scale(1.03);
+    }
+
+    .footer {
+      margin-top: 15px;
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="form-container">
+    <h2>Create Your Account</h2>
+
+    <!-- ✅ REAL FORM with method and action -->
+    <!-- Replace /upload or /register with your backend route -->
+    <form id="userForm" action="er" method="POST" enctype="multipart/form-data">
+      <div class="form-group">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" name="name" placeholder="Enter your name" required />
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email" required />
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Enter a strong password" required />
+      </div>
+
+      <div class="form-group">
+        <label for="profilePic">Upload Profile Picture</label>
+        <input type="file" id="profilePic" name="profilePic" accept="image/*" required />
+      </div>
+
+      <div class="preview" id="preview"></div>
+
+      <button type="submit">Register</button>
+    </form>
+
+    <div class="footer">
+      Already have an account? <a href="#" style="color:#00c6ff; text-decoration:none;">Login</a>
+    </div>
+  </div>
+
+  <script>
+    const profilePicInput = document.getElementById('profilePic');
+    const previewDiv = document.getElementById('preview');
+
+    profilePicInput.addEventListener('change', () => {
+      const file = profilePicInput.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = e => {
+          previewDiv.innerHTML = `<img src="${e.target.result}" alt="Profile Picture">`;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  </script>
+
+</body>
+</html>
